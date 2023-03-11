@@ -1,0 +1,35 @@
+.sidenav-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidenav {
+  width: 225px;
+  background-color: #b6d1e6;
+  margin-left: -8px;
+}
+
+mat-toolbar {
+  background-color: #b6d1e6;
+  color: #fff;
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 98%;
+}
+
+.sidenav mat-nav-list a {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.sidenav mat-nav-list a.active {
+  background-color: #e0e0e0;
+}
+.sidenav mat-nav-list a img {
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.black {
+  color: #000000;
+}

@@ -1,0 +1,59 @@
+.example-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+mat-card {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+mat-card-header {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+mat-card-title {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-error {
+  color: #f44336;
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+.example-form button {
+  width: 100%;
+  margin-top: 10px;
+}
+.example-form .submit:enabled {
+  background-color: #b6d1e6;
+}
+.example-form h2 {
+  font-size: 34px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+}

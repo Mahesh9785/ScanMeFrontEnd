@@ -1,0 +1,41 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-nav-list>
+      <a href="/"><img src="./assets/ScanMeLogo.png" alt="ScanMe" /></a>
+      <a mat-list-item routerLink="/home" (click)="toggleSidenav()"
+        >My QR Codes</a
+      >
+      <a mat-list-item routerLink="/about" (click)="toggleSidenav()">About</a>
+      <a mat-list-item routerLink="/signup" (click)="toggleSidenav()"
+        >Register</a
+      >
+      <a mat-list-item routerLink="/login" (click)="toggleSidenav()">Login</a>
+      <a mat-list-item routerLink="/account" (click)="toggleSidenav()"
+        >Account</a
+      >
+      <a mat-list-item routerLink="/" (click)="toggleSidenav()">Logout</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-toolbar class="toolbar">
+    <button
+      mat-icon-button
+      (click)="drawer.toggle()"
+      *ngIf="isHandset$ | async"
+    >
+      <mat-icon class="black">menu</mat-icon>
+    </button>
+    <span class="black">&nbsp; &nbsp; ScanMe</span>
+  </mat-toolbar>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</mat-sidenav-container>
