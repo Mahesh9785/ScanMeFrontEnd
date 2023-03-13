@@ -2,5 +2,6 @@ export interface User {
   name: string;
   email: string;
   contact: string;
-  profilePictureUrl: string;
+  password:string;
+  // profilePictureUrl: string;
 }

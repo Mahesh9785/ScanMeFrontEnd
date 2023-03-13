@@ -3,21 +3,21 @@
     <h2>Login</h2>
 
     <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
         <mat-form-field appearance="fill">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username" required />
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required />
           <mat-error
             *ngIf="
-              loginForm.get('username').invalid &&
-              (loginForm.get('username').dirty ||
-                loginForm.get('username').touched)
+              loginForm.get('email').invalid &&
+              (loginForm.get('email').dirty ||
+                loginForm.get('email').touched)
             "
           >
-            <span *ngIf="loginForm.get('username').hasError('required')"
-              >Username is required</span
+            <span *ngIf="loginForm.get('email').hasError('required')"
+              >email is required</span
             >
-            <span *ngIf="loginForm.get('username').hasError('email')"
+            <span *ngIf="loginForm.get('email').hasError('email')"
               >Invalid email format</span
             >
           </mat-error>
@@ -54,6 +54,12 @@
             >
           </mat-error>
         </mat-form-field>
+
+        <mat-error>
+          <span>{{msg}}</span>
+        </mat-error>
+
+        <a class="forgot" (click)="openForgotPasswordForm()">Forgot Password?</a>
 
         <button mat-raised-button class="submit" [disabled]="loginForm.invalid">
           Login

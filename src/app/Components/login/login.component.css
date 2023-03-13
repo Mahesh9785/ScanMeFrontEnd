@@ -57,3 +57,14 @@ mat-error {
   text-align: center;
   margin-bottom: 24px;
 }
+.forgot{
+  display: flex;
+  float: right;
+  color: #2f8be8;
+  margin: 20px;
+  margin-top: 0;
+  right: 0;
+}
+.forgot:hover{
+  color: #024f9c;
+}

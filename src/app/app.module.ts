@@ -11,6 +11,7 @@ import { HomeComponent } from './Components/home/home.component';
 import { AccountComponent } from './Components/account/account.component';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
 
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -23,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -34,9 +36,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     HomeComponent,
     AccountComponent,
     ChangePasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
