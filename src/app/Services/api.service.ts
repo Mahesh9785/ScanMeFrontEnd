@@ -21,7 +21,7 @@ httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
 constructor(private httpClient: HttpClient) {}
 
-// Add
+// register new user
 registerUser(data: any): Observable<any> {
   return this.httpClient
     .post(this.API_URL + '/register', data, { responseType: 'json' })
@@ -56,6 +56,20 @@ getUsers(): Observable<any> {
     })
   );
 }
+
+//save qr code
+saveQr(data: any): Observable<any> {
+  return this.httpClient
+    .post(this.API_URL + '/save-qr', data, { responseType: 'json' })
+    .pipe(
+      catchError((error) => {
+        // Handle the error
+        console.error('Error saving qr', error);
+        return throwError(() => new Error('Error saving qr'));
+      })
+    );
+}
+
 
 // Error
 handleError(error: HttpErrorResponse) {

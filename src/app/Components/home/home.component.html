@@ -1,1 +1,14 @@
-<p>home works!</p>
+<mat-card>
+  <mat-card-content>
+    <div class="column">
+        <mat-form-field>
+          <input matInput [(ngModel)]="inputText" name="inputText" placeholder="Enter text">
+          </mat-form-field>
+        <div class="row">
+          <button mat-raised-button (click)="generateQRCode()">Generate QR code</button>
+          <button mat-raised-button (click)="saveQrCode()" *ngIf="generated">Save</button>
+        </div>
+        <qr-code [value]="qrData" #qrCanvas></qr-code>
+      </div>
+  </mat-card-content>
+</mat-card>

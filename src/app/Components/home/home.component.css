@@ -1,0 +1,46 @@
+/* Center the form in the middle of the page */
+mat-card {
+  min-width: 70%;
+  max-width: max-content;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+mat-card-content{
+  width: 100%;
+}
+
+/* Add some margin between the form fields */
+mat-form-field {
+  margin-right: 32px;
+  margin-left: 20px;
+  margin-top: 25px;
+  width: 60%;
+  align-self: center;
+}
+
+/* Center the QR code below the form */
+qr-code{
+  display: flex;
+  margin: 20px;
+  margin-right: 50px;
+  align-self: center;
+}
+.row{
+  display: flex;
+  flex-direction: column;
+}
+.column{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.column button{
+  margin-top:20px;
+  right:0;
+  background-color:#b6d1e6;
+  color:#000000;
+}

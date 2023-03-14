@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +11,7 @@ import { AboutComponent } from './Components/about/about.component';
 import { HomeComponent } from './Components/home/home.component';
 import { AccountComponent } from './Components/account/account.component';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
+import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +26,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
+import { MyQrCodeModule } from './qr-code.module';
+import { ZXingScannerComponent, ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { ForgotPasswordComponent } from './Components/forgot-password/forgot-pas
     AccountComponent,
     ChangePasswordComponent,
     ForgotPasswordComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,8 @@ import { ForgotPasswordComponent } from './Components/forgot-password/forgot-pas
     ReactiveFormsModule,
     MatSnackBarModule,
     MatDialogModule,
+    FormsModule,
+    MyQrCodeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

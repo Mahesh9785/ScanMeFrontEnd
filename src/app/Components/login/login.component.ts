@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('isLoggedIn', 'true');
 
               localStorage.setItem('myData', JSON.stringify(this.data));
+              
 
             this.ngZone.run(() => this.routes.navigateByUrl('/home'));
           } else {

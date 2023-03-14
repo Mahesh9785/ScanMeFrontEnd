@@ -10,9 +10,20 @@ import { MatSidenav } from '@angular/material/sidenav';
   styleUrls: ['./sidenav.component.css'],
 })
 export class SidenavComponent {
+
+  ngDoCheck(){
+    if(localStorage.getItem("isLoggedIn")!=null){
+      this.isLoggedIn=true;
+    }else{
+      this.isLoggedIn=false;
+    }
+  }
+
   @ViewChild('drawer') drawer: MatSidenav | any;
 
   isHandset: boolean = false;
+
+  isLoggedIn:boolean | any=localStorage.getItem('isLoggedIn');
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe('(max-width: 812px)')
@@ -28,5 +39,10 @@ export class SidenavComponent {
     if (this.isHandset) {
       this.drawer.toggle();
     }
+  }
+
+  logout(){
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("myData");
   }
 }
