@@ -26,8 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MyQrCodeModule } from './qr-code.module';
-import { ZXingScannerComponent, ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -59,7 +58,7 @@ import { ZXingScannerComponent, ZXingScannerModule } from '@zxing/ngx-scanner';
     MatSnackBarModule,
     MatDialogModule,
     FormsModule,
-    MyQrCodeModule,
+    QRCodeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

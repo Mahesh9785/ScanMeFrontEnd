@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', component: LoginComponent },
+  { path: '**', component: HomeComponent },
 ];
 
 @NgModule({

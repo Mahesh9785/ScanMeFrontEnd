@@ -1,14 +1,20 @@
 <mat-card>
   <mat-card-content>
-    <div class="column">
+    <div class="row">
+      <div class="example">
         <mat-form-field>
-          <input matInput [(ngModel)]="inputText" name="inputText" placeholder="Enter text">
-          </mat-form-field>
-        <div class="row">
+          <input #qrInput matInput [(ngModel)]="inputText" name="inputText" placeholder="Enter text" autofocus (keyup.enter)="generateQRCode()">
+        </mat-form-field>
+        <mat-card-subtitle>{{qrName}}</mat-card-subtitle>
+      </div>
+        <div class="column">
           <button mat-raised-button (click)="generateQRCode()">Generate QR code</button>
           <button mat-raised-button (click)="saveQrCode()" *ngIf="generated">Save</button>
         </div>
-        <qr-code [value]="qrData" #qrCanvas></qr-code>
+          <div *ngIf="qrData" class="qrCodeContainer">
+            <qrcode *ngIf="qrData" (qrCodeURL)="onChangeURL($event)" [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+            <a *ngIf="qrCodeDownloadLink" [href]="qrCodeDownloadLink" download="qrcode">Download</a>
+          </div>
       </div>
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+  </mat-card>

@@ -1,46 +1,70 @@
 /* Center the form in the middle of the page */
 mat-card {
-  min-width: 70%;
-  max-width: max-content;
+  width: 95%;
+  min-width:fit-content;
   margin: 0 auto;
   margin-top: 50px;
   margin-bottom: 20px;
-  text-align: center;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 mat-card-content{
-  width: 100%;
+  width:100%;
 }
 
 /* Add some margin between the form fields */
 mat-form-field {
-  margin-right: 32px;
-  margin-left: 20px;
-  margin-top: 25px;
-  width: 60%;
+  width: 100%;
+  min-width: 150px;
   align-self: center;
 }
 
-/* Center the QR code below the form */
-qr-code{
-  display: flex;
-  margin: 20px;
-  margin-right: 50px;
+qrcode{
+  /* width: 20%; */
+  min-width: 200px;
   align-self: center;
 }
 .row{
-  display: flex;
-  flex-direction: column;
-}
-.column{
+  width: 100%;
   display: flex;
   flex-direction: row;
+  margin: 0;
+}
+.column{
+  width: 50%;
+  max-width: 300px;
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content:space-evenly ;
+  margin: 0;
 }
 .column button{
-  margin-top:20px;
-  right:0;
+  width: 100%;
+  justify-self: center;
   background-color:#b6d1e6;
   color:#000000;
+  text-align: center;
+}
+.example{
+  min-width: 45%;
+  margin-right: 32px;
+  margin-left: 20px;
+  margin-top: 20px;
+  align-self: center;
+}
+.example span{
+  width: 100%;
+  left:0;
+}
+.qrCodeContainer{
+  width: 50%;
+  margin-right: 20px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-evenly ;
 }
