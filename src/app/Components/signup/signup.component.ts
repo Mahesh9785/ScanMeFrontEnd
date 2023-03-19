@@ -51,7 +51,7 @@ export class SignupComponent implements OnInit {
     console.log(data)
     this.apiService.registerUser(data).subscribe((res)=>{
       console.log("Registration Response",res);
-      if (res['success']) {
+      if (res.success) {
         console.log('Data added!!!!', res.message);
         this.ngZone.run(() => this.router.navigateByUrl('/login'));
         this._snackBar.open(

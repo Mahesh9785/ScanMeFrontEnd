@@ -4,7 +4,7 @@
     <div class="profile-details-container">
       <div class="profile-picture-container">
         <div class="profile-picture">
-          <img src="./assets/profile-img.jpg" alt="Profile Picture" />
+          <img src="{{userProfilePicture}}" alt="Profile Picture" width="200" height="200" />
         </div>
         <button mat-icon-button class="icon" (click)="openFileDialog()">
           <mat-icon>edit</mat-icon>
@@ -13,11 +13,12 @@
           type="file"
           #fileInput
           hidden
-          (change)="onFileSelected($event)"
+          (change)="onFileSelected(fileInput.files);showPreviewImage($event)"
+          [multiple]="false"
         />
       </div>
       <mat-card-content>
-        <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm.value)">
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" required />

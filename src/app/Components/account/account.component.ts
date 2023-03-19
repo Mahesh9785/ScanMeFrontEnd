@@ -8,6 +8,11 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { ApiService } from 'src/app/Services/api.service';
+
+interface MyFile extends File {
+  url: string | ArrayBuffer | null;
+}
 
 @Component({
   selector: 'app-account',
@@ -18,18 +23,26 @@ export class AccountComponent {
 
   @ViewChild('fileInput') fileInputRef!: ElementRef | any;
 
+  files: File|any;
+  imageSelected : boolean = false;
+  selectedimg : string ="";
+  imageFile: File = {} as File;
+  userProfilePicture:string="./assets/profile-img.jpg"
   accountForm: FormGroup | any;
 
   hide = true;
-  public imageUrl: string = '';
   isClicked: boolean = false;
-  profileImageUrl: string = 'https://via.placeholder.com/400x400';
 
   openFileDialog() {
     this.fileInputRef.nativeElement.click();
   }
 
-  constructor(private formBuilder: FormBuilder, private dialog: MatDialog) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private apiService:ApiService,
+    private _snackBar: MatSnackBar,
+    ) {}
 
   ngOnInit() {
     this.accountForm = this.formBuilder.group(
@@ -44,13 +57,35 @@ export class AccountComponent {
           ],
         ],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-      },
-      {
-        validator: this.confirmPasswordValidator('password', 'confirmPassword'),
       }
     );
+
+    this.apiService.getProfile().subscribe((res)=>{
+      console.log(res)
+      const imagename=res.toString();
+
+      this.userProfilePicture=`http://localhost:3000/public/Profiles/${imagename}`
+    })
+
+      this.apiService.getUsers().subscribe((res)=>{
+        if(res.success){
+          const currentUser=res.success;
+          this.accountForm.patchValue({
+            name:currentUser.name,
+            contact:currentUser.contact,
+            email:currentUser.email,
+          })
+        }else{
+          console.log('Error', res);
+        this._snackBar.open(
+          res.message,
+          'OK',
+          {
+            duration: 5000,
+          }
+        );
+        }
+      })
   }
 
   openChangePasswordForm(): void {
@@ -68,32 +103,18 @@ export class AccountComponent {
     console.log(this.isClicked);
   }
 
-  onSubmit() {
+  onSubmit(data:any) {
     // Submit the form data
-  }
-
-  confirmPasswordValidator(
-    passwordControlName: string,
-    confirmPasswordControlName: string
-  ) {
-    return (formGroup: FormGroup) => {
-      const passwordControl = formGroup.controls[passwordControlName];
-      const confirmPasswordControl =
-        formGroup.controls[confirmPasswordControlName];
-
-      if (
-        confirmPasswordControl.errors &&
-        !confirmPasswordControl.errors['passwordsMismatch']
-      ) {
-        return;
-      }
-
-      if (passwordControl.value !== confirmPasswordControl.value) {
-        confirmPasswordControl.setErrors({ passwordsMismatch: true });
-      } else {
-        confirmPasswordControl.setErrors(null);
-      }
-    };
+    if(this.accountForm.valid){
+      this.apiService.updateUser(data).subscribe((res)=>{
+        if(res.success){
+          console.log(res);
+        }else{
+          console.log(res.message);
+        }
+      })
+    }
+    this.uploadFiles();
   }
 
   onContactInput(event: any) {
@@ -104,12 +125,43 @@ export class AccountComponent {
     }
   }
 
-  onFileSelected(event: Event | any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.profileImageUrl = reader.result as string;
-    };
+  onFileSelected(files: FileList | any) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      console.log(file);
+      this.files=file;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedimg = e?.target?.result as string;
+        // store the selected image in a variable
+        this.imageFile = file;
+      };
+      reader.readAsDataURL(file);
+    }
+    this.imageSelected = true;
+    console.log(this.files);
   }
+
+  showPreviewImage(event: any) {
+    if (event.target.files && event.target.files[0]) {
+        var reader = new FileReader();
+        reader.onload = (event: any) => {
+            this.userProfilePicture = event.target.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  uploadFiles(){
+    const formData = new FormData();
+
+      formData.append('image', this.files, this.files.name);
+      console.log(formData);
+      this.apiService.saveProfilePicture(formData).subscribe((res)=>{
+
+      })
+
+  }
+
 }

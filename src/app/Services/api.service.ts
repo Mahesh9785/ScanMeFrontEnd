@@ -15,6 +15,7 @@ export class ApiService {
 
 // Node/Express API
 API_URL = 'http://localhost:3000';
+userId:any=JSON.parse(localStorage.getItem("myData") as string);
 
 // Http Header
 httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
@@ -48,7 +49,7 @@ verifyUser(data:any): Observable<any> {
 
 // Get all users
 getUsers(): Observable<any> {
-  return this.httpClient.get(this.API_URL + '/getusers').pipe(
+  return this.httpClient.get(this.API_URL + `/getuser/${this.userId._id}`).pipe(
     catchError((error) => {
       // Handle the error
       console.error('Error fetching user', error);
@@ -58,9 +59,10 @@ getUsers(): Observable<any> {
 }
 
 //save qr code
-saveQr(data: any): Observable<any> {
+saveQr(data: FormData): Observable<any> {
+  console.log(data);
   return this.httpClient
-    .post(this.API_URL + '/save-qr', data, { responseType: 'json' })
+    .post(this.API_URL + `/save-qr/${this.userId._id}`, data, { responseType: 'json' })
     .pipe(
       catchError((error) => {
         // Handle the error
@@ -68,6 +70,55 @@ saveQr(data: any): Observable<any> {
         return throwError(() => new Error('Error saving qr'));
       })
     );
+}
+
+// update user
+updateUser(data: any): Observable<any> {
+  return this.httpClient
+    .post(this.API_URL + `/update/${this.userId._id}`, data, { responseType: 'json' })
+    .pipe(
+      catchError((error) => {
+        // Handle the error
+        console.error('Error updating user', error);
+        return throwError(() => new Error('Error updating user'));
+      })
+    );
+}
+
+//save profile picture
+saveProfilePicture(data: FormData): Observable<any> {
+  console.log(data);
+  return this.httpClient
+    .post(this.API_URL + `/save-profile-picture/${this.userId._id}`, data, { responseType: 'json' })
+    .pipe(
+      catchError((error) => {
+        // Handle the error
+        console.error('Error saving profile picture', error);
+        return throwError(() => new Error('Error saving profile picture'));
+      })
+    );
+}
+
+// Get user profile picture
+getProfile(): Observable<any> {
+  return this.httpClient.get(this.API_URL + `/getProfile/${this.userId._id}`).pipe(
+    catchError((error) => {
+      // Handle the error
+      console.error('Error fetching user profile', error);
+      return throwError(() => new Error('Error fetching user profile'));
+    })
+  );
+}
+
+// Verify user
+getQRcodes(): Observable<any> {
+  return this.httpClient.get(this.API_URL + `/getQRCodes/${this.userId._id}`).pipe(
+    catchError((error) => {
+      // Handle the error
+      console.error('Error fetching QRCodes', error);
+      return throwError(() => new Error('Error fetching QRCodes'));
+    })
+  );
 }
 
 

@@ -59,13 +59,17 @@ mat-error {
 .profile-picture {
   position: relative;
   width: 100%;
-  max-width: 420px;
-  border-radius: 50%;
+  max-width: 200px;
+  max-height: 200px;
+  min-width: 200px;
+  min-height: 200px;
+  border-radius: 100%;
 }
 
 .profile-picture img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: auto;
+  object-fit: cover;
 }
 
 .icon mat-icon{

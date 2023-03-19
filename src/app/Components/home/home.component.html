@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="qrcodes">
   <mat-card-content>
     <div class="row">
       <div class="example">
@@ -12,7 +12,7 @@
           <button mat-raised-button (click)="saveQrCode()" *ngIf="generated">Save</button>
         </div>
           <div *ngIf="qrData" class="qrCodeContainer">
-            <qrcode *ngIf="qrData" (qrCodeURL)="onChangeURL($event)" [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+            <qrcode #qrCode elementType="canvas" *ngIf="qrData" (qrCodeURL)="onChangeURL($event)" [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
             <a *ngIf="qrCodeDownloadLink" [href]="qrCodeDownloadLink" download="qrcode">Download</a>
           </div>
       </div>

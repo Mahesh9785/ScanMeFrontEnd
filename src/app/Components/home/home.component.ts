@@ -1,7 +1,6 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { ApiService } from 'src/app/Services/api.service';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-home',
@@ -12,19 +11,32 @@ export class HomeComponent {
   qrCodeDownloadLink: SafeUrl | any;
 
   @ViewChild('qrInput') qrInputField: ElementRef|any;
-  constructor(private apiService:ApiService){
-  }
+  constructor(
+    private apiService:ApiService,
+    ){}
 
+  qrcodes=true;
   generated:boolean=false;
   inputText: string='';
   qrData:string='';
   qrName:string='';
-  qrCodeImagePath: string='';
+  qrCodeImagePath: File|any;
   data:any;
   message:string|any;
   loggedInUser=JSON.parse(localStorage.getItem("myData") as string);
 
-  generateQRCode() {
+    ngOnInit(){
+      this.apiService.getQRcodes().subscribe((res)=>{
+        console.log(res);
+        if(res.success){
+          this.qrcodes=false;
+        }else{
+          this.qrcodes=true;
+        }
+      })
+    }
+
+    generateQRCode() {
     if(this.inputText=='' || this.inputText==null){
       this.message='Please enter Some text to generate a QR code';
       alert(this.message);
@@ -39,6 +51,7 @@ export class HomeComponent {
         this.qrData=this.inputText;
       }
       // console.log(this.qrData)
+
       this.generated=true;
       this.qrName="QR Code Name : "+this.inputText;
       this.inputText='';
@@ -65,38 +78,36 @@ export class HomeComponent {
   }
 
   onChangeURL(url: SafeUrl) {
-    this.qrCodeDownloadLink = url;
+    this.qrCodeDownloadLink = url.toString();
+    console.log(url);
+    const pattern =  /blob:https?:\/\/\S+/
+    const match = this.qrCodeDownloadLink.match(pattern);
+    if (match ? this.qrCodeDownloadLink= match[0] : this.qrCodeDownloadLink= null)
     console.log(this.qrCodeDownloadLink);
   }
 
   saveQrCode(){
     fetch(this.qrCodeDownloadLink)
-      .then(response => response.blob())
-      .then(blob =>{
-        const folderPath = `user_images/user_${this.loggedInUser._id}`;
-        const fileName = `image_${Date.now()}.png`;
-        saveAs(blob, `${folderPath}/${fileName}`);
-        console.log(`${folderPath}/${fileName}`);
-        this.qrCodeImagePath=`${folderPath}/${fileName}`;
-      })
-      .catch(error => console.error(error));
-
-
-    this.data={
-      userId: this.loggedInUser._id,
-      qrName:this.qrData,
-      qrCode:this.qrCodeImagePath,
-    }
-    console.log(this.data);
-      this.apiService.saveQr(this.data).subscribe(
+    .then(res => res.blob())
+    .then(blob =>  {
+      this.qrCodeImagePath = new File([blob], this.qrData+".png", { type: 'image/png' });
+      console.log(this.qrCodeImagePath);
+      const formData = new FormData();
+      formData.append('file', this.qrCodeImagePath);
+      formData.append('userId', this.loggedInUser._id );
+      formData.append('qrName', this.qrData );
+      console.log(formData);
+      this.apiService.saveQr(formData).subscribe(
         (res) => {
           console.log('QR code saved successfully:', res);
         },
         (error) => {
           console.error('Error saving QR code:', error);
         }
-        )
-      }
+      )
+    });
+  }
+
 
 
 }
