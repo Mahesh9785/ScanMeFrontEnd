@@ -63,8 +63,11 @@ export class AccountComponent {
     this.apiService.getProfile().subscribe((res)=>{
       console.log(res)
       const imagename=res.toString();
-
+      if(imagename==''){
+        this.userProfilePicture="./assets/profile-img.jpg"
+      }else{
       this.userProfilePicture=`http://localhost:3000/public/Profiles/${imagename}`
+    }
     })
 
       this.apiService.getUsers().subscribe((res)=>{

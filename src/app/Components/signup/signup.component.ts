@@ -2,7 +2,6 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User } from 'src/app/Models/user';
 import { ApiService } from 'src/app/Services/api.service';
 
 @Component({
@@ -13,7 +12,6 @@ import { ApiService } from 'src/app/Services/api.service';
 export class SignupComponent implements OnInit {
   signUpForm: FormGroup | any;
   hide = true;
-  user:User[]=[];
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -50,7 +48,7 @@ export class SignupComponent implements OnInit {
     // Submit the form data
     console.log(data)
     this.apiService.registerUser(data).subscribe((res)=>{
-      console.log("Registration Response",res);
+      console.log("Registration Response",res.message);
       if (res.success) {
         console.log('Data added!!!!', res.message);
         this.ngZone.run(() => this.router.navigateByUrl('/login'));

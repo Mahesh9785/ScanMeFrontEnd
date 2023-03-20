@@ -8,18 +8,22 @@ import { ApiService } from 'src/app/Services/api.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+
   qrCodeDownloadLink: SafeUrl | any;
+  downloadQR: SafeUrl | any;
 
   @ViewChild('qrInput') qrInputField: ElementRef|any;
   constructor(
     private apiService:ApiService,
     ){}
 
-  qrcodes=true;
+  showAddQR=false;
+  qrcodes=false;
   generated:boolean=false;
   inputText: string='';
   qrData:string='';
   qrName:string='';
+  qrCodeImageUrl='';
   qrCodeImagePath: File|any;
   data:any;
   message:string|any;
@@ -28,10 +32,11 @@ export class HomeComponent {
     ngOnInit(){
       this.apiService.getQRcodes().subscribe((res)=>{
         console.log(res);
-        if(res.success){
-          this.qrcodes=false;
-        }else{
+        if(res.status){
           this.qrcodes=true;
+          this.data=res.data;
+        }else{
+          this.qrcodes=false;
         }
       })
     }
@@ -78,6 +83,7 @@ export class HomeComponent {
   }
 
   onChangeURL(url: SafeUrl) {
+    this.downloadQR=url;
     this.qrCodeDownloadLink = url.toString();
     console.log(url);
     const pattern =  /blob:https?:\/\/\S+/
@@ -87,6 +93,7 @@ export class HomeComponent {
   }
 
   saveQrCode(){
+    this.showAddQR=false;
     fetch(this.qrCodeDownloadLink)
     .then(res => res.blob())
     .then(blob =>  {
@@ -106,8 +113,54 @@ export class HomeComponent {
         }
       )
     });
+    setTimeout(()=>{
+      window.location.reload();
+    },1000)
   }
 
+  sendQrCodeByEmail() {
+    throw new Error('Method not implemented.');
+  }
+
+  editQrCode() {
+    throw new Error('Method not implemented.');
+  }
+
+  downloadQrCode(imageUrl: string) {
+  // define a method to download the image
+  const headers=new Headers();
+  headers.append('Access-Control-Allow-Origin', '*');
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', imageUrl, true);
+  xhr.responseType = 'blob';
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      const reader = new FileReader();
+      reader.readAsDataURL(xhr.response);
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        this.saveImage(dataUrl);
+      };
+    }
+  };
+  xhr.send();
+}
+
+// define a method to save the image as a file
+saveImage(dataUrl: string) {
+  const link = document.createElement('a');
+  link.download = 'image.png';
+  link.href = dataUrl;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
+  showAddQRCard(){
+    this.showAddQR=true;
+    console.log(this.showAddQR)
+  }
 
 
 }

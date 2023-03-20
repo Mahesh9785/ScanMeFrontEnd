@@ -1,20 +1,61 @@
-<mat-card *ngIf="qrcodes">
-  <mat-card-content>
-    <div class="row">
-      <div class="example">
-        <mat-form-field>
-          <input #qrInput matInput [(ngModel)]="inputText" name="inputText" placeholder="Enter text" autofocus (keyup.enter)="generateQRCode()">
-        </mat-form-field>
-        <mat-card-subtitle>{{qrName}}</mat-card-subtitle>
-      </div>
+<mat-card-subtitle class="message" *ngIf="!qrcodes">You don't have any QR Codes yet !!</mat-card-subtitle>
+<button mat-raised-button class="newQR" (click)="showAddQRCard()">
+  <mat-icon>add</mat-icon>
+  New QR Code
+</button>
+<div *ngIf="showAddQR">
+  <ng-container *ngTemplateOutlet="addQrTemplate"></ng-container>
+</div>
+<div *ngIf="qrcodes && !showAddQR">
+  <mat-card *ngFor="let qr of data.qrCodes">
+    <mat-card-header>
+      <mat-card-title>
+        {{ qr.qrCodeName }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        Last Edited on {{qr.createdAt | date }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="qrList">
+      <img width="200" #qrCodeImage src='http://localhost:3000/public/QR_Codes/{{loggedInUser._id}}/{{qr.qrCodeImageName}}' alt="QR Code Image">
+    </mat-card-content>
+    <mat-card-actions>
+      <!-- [href]="qrCodeImage.src" download="{{qr.qrCodeImageName}}" -->
+      <a mat-button (click)="downloadQrCode(qrCodeImage.src)">
+        <mat-icon>cloud_download</mat-icon>
+        Download
+      </a>
+      <button mat-button (click)="editQrCode()">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      <button mat-button (click)="sendQrCodeByEmail()">
+        <mat-icon>email</mat-icon>
+        Send by Email
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+  <ng-template #addQrTemplate>
+    <mat-card>
+      <mat-card-content class="addQR">
+        <div class="row">
+        <div class="example">
+          <mat-form-field>
+            <input #qrInput matInput [(ngModel)]="inputText" name="inputText" placeholder="Enter text" autofocus (keyup.enter)="generateQRCode()">
+          </mat-form-field>
+          <mat-card-subtitle>{{qrName}}</mat-card-subtitle>
+        </div>
         <div class="column">
           <button mat-raised-button (click)="generateQRCode()">Generate QR code</button>
           <button mat-raised-button (click)="saveQrCode()" *ngIf="generated">Save</button>
         </div>
-          <div *ngIf="qrData" class="qrCodeContainer">
-            <qrcode #qrCode elementType="canvas" *ngIf="qrData" (qrCodeURL)="onChangeURL($event)" [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
-            <a *ngIf="qrCodeDownloadLink" [href]="qrCodeDownloadLink" download="qrcode">Download</a>
-          </div>
+        <div *ngIf="qrData" class="qrCodeContainer">
+          <qrcode #qrCode elementType="canvas" *ngIf="qrData" (qrCodeURL)="onChangeURL($event)" [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+          <a *ngIf="qrCodeDownloadLink" [href]="downloadQR" download="qrcode">Download</a>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
+  </ng-template>

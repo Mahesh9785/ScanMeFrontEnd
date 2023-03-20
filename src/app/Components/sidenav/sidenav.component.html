@@ -11,7 +11,7 @@
       <a href="/"><img src="./assets/ScanMeLogo.png" alt="ScanMe" /></a>
       <a *ngIf="isLoggedIn" mat-list-item routerLink="/home" (click)="toggleSidenav()">My QR Codes</a>
       <a mat-list-item routerLink="/about" (click)="toggleSidenav()">About</a>
-      <a *ngIf="!isLoggedIn" mat-list-item routerLink="/signup" (click)="toggleSidenav()">Register</a>
+      <a *ngIf="!isLoggedIn" mat-list-item routerLink="/register" (click)="toggleSidenav()">Register</a>
       <a *ngIf="!isLoggedIn" mat-list-item routerLink="/login" (click)="toggleSidenav()">Login</a>
       <a *ngIf="isLoggedIn" mat-list-item routerLink="/account" (click)="toggleSidenav()">Account</a>
       <a *ngIf="isLoggedIn" mat-list-item routerLink="/login" (click)="toggleSidenav(); logout()">Logout</a>

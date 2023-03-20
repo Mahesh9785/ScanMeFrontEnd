@@ -11,14 +11,14 @@ export class SecondaryAuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const isLoggedIn = localStorage.getItem('isLoggedIn') == 'true';
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
 
     if (isLoggedIn) {
       this.router.navigate(['/home']);
       return false;
+    }else{
+      return true;
     }
-
-    return true;
   }
 
 }
