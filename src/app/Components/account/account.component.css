@@ -64,6 +64,7 @@ mat-error {
   min-width: 200px;
   min-height: 200px;
   border-radius: 100%;
+  overflow: hidden;
 }
 
 .profile-picture img {

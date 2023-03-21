@@ -111,10 +111,24 @@ export class AccountComponent {
     if(this.accountForm.valid){
       this.apiService.updateUser(data).subscribe((res)=>{
         if(res.success){
-          console.log(res);
-        }else{
-          console.log(res.message);
-        }
+          console.log('Data updated!!!!', res.message);
+        this._snackBar.open(
+          res.message,
+          'OK',
+          {
+            duration: 5000,
+          }
+        );
+      } else {
+        console.log('Error', res);
+        this._snackBar.open(
+          res.message,
+          'OK',
+          {
+            duration: 5000,
+          }
+        );
+      }
       })
     }
     this.uploadFiles();

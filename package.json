@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "pretty": "prettier --write \"./**/*.{ts,html,css}\""
+    "pretty": "prettier --write \"./**/*.{ts,html,css}\"",
+    "start-proxy": "ng serve --proxy-config proxy.conf.json"
   },
   "private": true,
   "dependencies": {

@@ -17,6 +17,7 @@ export class HomeComponent {
     private apiService:ApiService,
     ){}
 
+  disabled=false;
   showAddQR=false;
   qrcodes=false;
   generated:boolean=false;
@@ -24,6 +25,7 @@ export class HomeComponent {
   qrData:string='';
   qrName:string='';
   qrCodeImageUrl='';
+  qrCodeName='';
   qrCodeImagePath: File|any;
   data:any;
   message:string|any;
@@ -42,7 +44,7 @@ export class HomeComponent {
     }
 
     generateQRCode() {
-    if(this.inputText=='' || this.inputText==null){
+    if(this.inputText=='' || this.inputText==null || this.qrCodeName=='' || this.qrCodeName==null){
       this.message='Please enter Some text to generate a QR code';
       alert(this.message);
     }else{
@@ -58,8 +60,7 @@ export class HomeComponent {
       // console.log(this.qrData)
 
       this.generated=true;
-      this.qrName="QR Code Name : "+this.inputText;
-      this.inputText='';
+      this.qrName="QR Code Text : "+this.inputText;
       this.qrInputField.nativeElement.focus();
     }
   }
@@ -93,16 +94,18 @@ export class HomeComponent {
   }
 
   saveQrCode(){
+    this.inputText='';
     this.showAddQR=false;
     fetch(this.qrCodeDownloadLink)
     .then(res => res.blob())
     .then(blob =>  {
-      this.qrCodeImagePath = new File([blob], this.qrData+".png", { type: 'image/png' });
+      this.qrCodeImagePath = new File([blob], this.qrCodeName+".jpeg", { type: 'image/jpeg' });
       console.log(this.qrCodeImagePath);
       const formData = new FormData();
       formData.append('file', this.qrCodeImagePath);
       formData.append('userId', this.loggedInUser._id );
-      formData.append('qrName', this.qrData );
+      formData.append('qrName', this.qrCodeName );
+      formData.append('qrData', this.qrData );
       console.log(formData);
       this.apiService.saveQr(formData).subscribe(
         (res) => {
@@ -122,28 +125,41 @@ export class HomeComponent {
     throw new Error('Method not implemented.');
   }
 
-  editQrCode() {
-    throw new Error('Method not implemented.');
+  editQrCode(qrName:string,qrData:string) {
+    this.showAddQR=true;
+    this.qrCodeName=qrName;
+    this.inputText=qrData;
+    this.disabled=true;
+    this.generateQRCode();
   }
 
-  downloadQrCode(imageUrl: string) {
-  // define a method to download the image
-  const headers=new Headers();
-  headers.append('Access-Control-Allow-Origin', '*');
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', imageUrl, true);
-  xhr.responseType = 'blob';
-  xhr.onload = () => {
-    if (xhr.status === 200) {
-      const reader = new FileReader();
-      reader.readAsDataURL(xhr.response);
-      reader.onload = () => {
-        const dataUrl = reader.result as string;
-        this.saveImage(dataUrl);
-      };
-    }
-  };
-  xhr.send();
+  async downloadQrCode(imagePath: string) {
+
+  const response = await fetch('http://localhost:3000/public/QR_Codes/' + this.loggedInUser._id + '/' + imagePath, {
+    method: 'GET',
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+  });
+   const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    const fileName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+    link.download = fileName;
+    link.href = url;
+
+    console.log(link);
+    console.log(fileName);
+
+    link.addEventListener('load', () => {
+      URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    });
+
+    document.body.appendChild(link);
+
+    link.click();
 }
 
 // define a method to save the image as a file

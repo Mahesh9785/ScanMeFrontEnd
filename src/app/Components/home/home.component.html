@@ -13,6 +13,9 @@
         {{ qr.qrCodeName }}
       </mat-card-title>
       <mat-card-subtitle>
+        QR Code Text: {{ qr.qrCodeData }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
         Last Edited on {{qr.createdAt | date }}
       </mat-card-subtitle>
     </mat-card-header>
@@ -21,11 +24,11 @@
     </mat-card-content>
     <mat-card-actions>
       <!-- [href]="qrCodeImage.src" download="{{qr.qrCodeImageName}}" -->
-      <a mat-button (click)="downloadQrCode(qrCodeImage.src)">
+      <a mat-button (click)="downloadQrCode(qr.qrCodeImageName)">
         <mat-icon>cloud_download</mat-icon>
         Download
       </a>
-      <button mat-button (click)="editQrCode()">
+      <button mat-button (click)="editQrCode(qr.qrCodeName,qr.qrCodeData)">
         <mat-icon>edit</mat-icon>
         Edit
       </button>
@@ -43,7 +46,10 @@
         <div class="row">
         <div class="example">
           <mat-form-field>
-            <input #qrInput matInput [(ngModel)]="inputText" name="inputText" placeholder="Enter text" autofocus (keyup.enter)="generateQRCode()">
+            <input matInput [(ngModel)]="qrCodeName" name="qrNameInput" placeholder="Name Your QR" autofocus [disabled]="disabled">
+          </mat-form-field>
+          <mat-form-field>
+            <input #qrInput matInput [(ngModel)]="inputText" name="inputText" placeholder="Enter text" (keyup.enter)="generateQRCode()">
           </mat-form-field>
           <mat-card-subtitle>{{qrName}}</mat-card-subtitle>
         </div>

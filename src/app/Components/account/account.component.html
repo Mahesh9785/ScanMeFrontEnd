@@ -18,7 +18,7 @@
         />
       </div>
       <mat-card-content>
-        <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm.value)">
+        <form [formGroup]="accountForm">
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" required />
@@ -88,6 +88,7 @@
           <button
             mat-raised-button
             class="submit"
+            (click)="onSubmit(accountForm.value)"
             [disabled]="accountForm.invalid"
           >
             Save

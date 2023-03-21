@@ -88,6 +88,20 @@ registerUser(data: any): Observable<any> {
     );
   }
 
+  // update password
+  updatePassword(data: any): Observable<any> {
+    this.userId=JSON.parse(localStorage.getItem("myData") as string);
+    return this.httpClient
+    .post(this.API_URL + `/update_password/${this.userId._id}`, data, { responseType: 'json' })
+    .pipe(
+      catchError((error) => {
+        // Handle the error
+        console.error('Error updating password', error);
+        return throwError(() => new Error('Error updating password'));
+      })
+    );
+  }
+
   //save profile picture
   saveProfilePicture(data: FormData): Observable<any> {
     this.userId=JSON.parse(localStorage.getItem("myData") as string);
