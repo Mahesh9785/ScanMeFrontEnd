@@ -1,5 +1,30 @@
 mat-card-header{
-  font-size: 48px;
+  font-size: 34px;
   font-weight: 600;
   word-wrap: break-word;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 20px;
+}
+.camera
+{
+  width: 90%;
+  max-height: max-content;
+  height: 80%;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-left: 20px;
+  border: 2px solid black;
+  box-shadow: 5px black;
+  box-sizing: border-box;
+}
+.scanner{
+  width: auto;
+  height: auto;
+}
+button{
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
 }

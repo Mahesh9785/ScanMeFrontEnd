@@ -12,7 +12,7 @@ export class QrCodeScannerComponent implements AfterViewInit{
   @ViewChild('scanner')scanner: ZXingScannerComponent|any;
 
   BarcodeFormat: BarcodeFormat.QR_CODE |any;
-  flag=false;
+  flag=true;
   result: any;
 
   ngAfterViewInit() {
@@ -30,9 +30,8 @@ export class QrCodeScannerComponent implements AfterViewInit{
 onScanSuccess(result: string|any) {
   console.log('Scanned successfully:', result);
   this.scanner.reset();
-  this.result=result;
-  this.flag=true;
-  alert("The Scanned result is"+result)
+  this.result="The Scanned result is: "+result;
+  this.flag=false;
 }
 
 // Handle an unsuccessful scan by logging the error to the console

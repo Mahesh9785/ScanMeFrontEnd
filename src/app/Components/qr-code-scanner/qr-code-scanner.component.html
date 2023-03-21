@@ -1,3 +1,6 @@
- <zxing-scanner #scanner [enable]="true" (scanSuccess)="onScanSuccess($event)" (scanError)="onScanError($event)" [hidden]="flag"></zxing-scanner>
+ <div class="camera" *ngIf="flag">
+   <zxing-scanner class="scanner" #scanner [enable]="true" (scanSuccess)="onScanSuccess($event)" (scanError)="onScanError($event)"></zxing-scanner>
+ </div>
  <mat-card-header>{{result}}</mat-card-header>
+ <button mat-raised-button color="primary" [hidden]="flag">Scan Another QR</button>
 
