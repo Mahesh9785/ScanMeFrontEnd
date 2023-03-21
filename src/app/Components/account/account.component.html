@@ -38,23 +38,27 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required email />
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+            <input #emailId matInput formControlName="email" required email />
             <mat-error
               *ngIf="
-                accountForm.get('email').invalid &&
-                (accountForm.get('email').dirty ||
-                  accountForm.get('email').touched)
+              accountForm.get('email').invalid &&
+              (accountForm.get('email').dirty ||
+              accountForm.get('email').touched)
               "
-            >
+              >
               <span *ngIf="accountForm.get('email').hasError('required')"
-                >Email is required</span
+              >Email is required</span
               >
               <span *ngIf="accountForm.get('email').hasError('email')"
-                >Invalid email format</span
+              >Invalid email format</span
               >
             </mat-error>
+            <button mat-icon-button matSuffix class="edit" (click)="editEmail()">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button *ngIf="disabled" (click)="sendVerificationEmail(emailId.value)">Verify Email</button>
           </mat-form-field>
 
           <mat-form-field appearance="fill">
@@ -89,7 +93,7 @@
             mat-raised-button
             class="submit"
             (click)="onSubmit(accountForm.value)"
-            [disabled]="accountForm.invalid"
+            [disabled]="accountForm.invalid || disabled"
           >
             Save
           </button>

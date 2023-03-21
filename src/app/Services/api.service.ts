@@ -48,7 +48,7 @@ registerUser(data: any): Observable<any> {
     }
 
     // Get all users
-    getUsers(): Observable<any> {
+    getUser(): Observable<any> {
       this.userId=JSON.parse(localStorage.getItem("myData") as string);
       return this.httpClient.get(this.API_URL + `/getuser/${this.userId._id}`).pipe(
         catchError((error) => {
@@ -102,6 +102,20 @@ registerUser(data: any): Observable<any> {
     );
   }
 
+  // update email
+  updateEmail(data: any): Observable<any> {
+    this.userId=JSON.parse(localStorage.getItem("myData") as string);
+    return this.httpClient
+    .post(this.API_URL + `/update_email`, data, { responseType: 'json' })
+    .pipe(
+      catchError((error) => {
+        // Handle the error
+        console.error('Error updating email address', error);
+        return throwError(() => new Error('Error updating email address'));
+      })
+    );
+  }
+
   //save profile picture
   saveProfilePicture(data: FormData): Observable<any> {
     this.userId=JSON.parse(localStorage.getItem("myData") as string);
@@ -149,12 +163,39 @@ registerUser(data: any): Observable<any> {
         .pipe(
           catchError((error) => {
       // Handle the error
-      console.error('Error fetching QRCodes', error);
-      return throwError(() => new Error('Error fetching QRCodes'));
+      console.error('Error Sending Email', error);
+      return throwError(() => new Error('Error Sending Email'));
     })
   );
 }
 
+//send reset password mail
+resetPass(data:any): Observable<any> {
+  console.log(data)
+  this.userId=JSON.parse(localStorage.getItem("myData") as string);
+  return this.httpClient.post(this.API_URL + `/forgot-password`, data, { responseType: 'json' })
+  .pipe(
+    catchError((error) => {
+// Handle the error
+console.error('Error sending reset password mail', error);
+return throwError(() => new Error('Error sending reset password mail'));
+})
+);
+}
+
+// delete a particular qrCode
+deleteQr(data:any): Observable<any> {
+  console.log(data)
+  this.userId=JSON.parse(localStorage.getItem("myData") as string);
+  return this.httpClient.post(this.API_URL + `/delete-qr/${this.userId._id}`, data, { responseType: 'json' })
+  .pipe(
+    catchError((error) => {
+// Handle the error
+console.error('Error deleting QRCodes', error);
+return throwError(() => new Error('Error deleting QRCodes'));
+})
+);
+}
 
 // Error
 handleError(error: HttpErrorResponse) {

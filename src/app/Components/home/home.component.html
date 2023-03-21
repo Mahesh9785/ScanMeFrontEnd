@@ -36,6 +36,10 @@
         <mat-icon>email</mat-icon>
         Send by Email
       </button>
+      <button mat-button (click)="deleteQrCode(qr.qrCodeImageName,qr.qrCodeName)">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
     </mat-card-actions>
   </mat-card>
 </div>

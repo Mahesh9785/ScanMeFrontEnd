@@ -125,19 +125,6 @@ export class HomeComponent {
   }
 
   sendQrCodeByEmail(imagePath:string) {
-    // fetch('http://localhost:3000/public/QR_Codes/' + this.loggedInUser._id + '/' + imagePath)
-    // .then(res => res.blob())
-    // .then(blob =>  {
-    //   this.qrCodeImageUrlForMail = new File([blob], imagePath, { type: 'image/jpeg' });
-    //   console.log(this.qrCodeImagePath);
-    // });
-    // const formDataForMail = new FormData();
-    // console.log(this.qrCodeImageUrlForMail)
-    // console.log(this.loggedInUser.email)
-
-    //   formDataForMail.append('file', this.qrCodeImageUrlForMail);
-    //   formDataForMail.append('email', this.loggedInUser.email );
-    //   console.log(formDataForMail);
     this.apiService.sendEmail({email:this.loggedInUser.email,filename:imagePath}).subscribe((res)=>{
       if(res.success){
         this._snackBar.open(
@@ -195,6 +182,32 @@ export class HomeComponent {
     document.body.appendChild(link);
 
     link.click();
+}
+
+deleteQrCode(imageName:string,qrName:string){
+  this.apiService.deleteQr({imageName,qrName}).subscribe((res)=>{
+    if(res.success){
+      this._snackBar.open(
+        res.message,
+        'OK',
+        {
+          duration: 5000,
+        }
+      );
+      setTimeout(()=>{
+        window.location.reload();
+      },1000)
+    }else{
+      console.log('Error', res);
+    this._snackBar.open(
+      res.message,
+      'OK',
+      {
+        duration: 5000,
+      }
+    );
+    }
+  })
 }
 
 // define a method to save the image as a file

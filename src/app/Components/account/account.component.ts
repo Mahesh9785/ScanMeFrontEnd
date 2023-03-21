@@ -29,7 +29,8 @@ export class AccountComponent {
   imageFile: File = {} as File;
   userProfilePicture:string="./assets/profile-img.jpg"
   accountForm: FormGroup | any;
-
+  disabled=false;
+  loggedInUser:any;
   hide = true;
   isClicked: boolean = false;
 
@@ -44,7 +45,8 @@ export class AccountComponent {
     private _snackBar: MatSnackBar,
     ) {}
 
-  ngOnInit() {
+    ngOnInit() {
+    this.loggedInUser=JSON.parse(localStorage.getItem("myData") as string);
     this.accountForm = this.formBuilder.group(
       {
         name: ['', [Validators.required, Validators.maxLength(30)]],
@@ -59,7 +61,7 @@ export class AccountComponent {
         email: ['', [Validators.required, Validators.email]],
       }
     );
-
+      this.accountForm.controls['email'].disable();
     this.apiService.getProfile().subscribe((res)=>{
       console.log(res)
       const imagename=res.toString();
@@ -70,7 +72,7 @@ export class AccountComponent {
     }
     })
 
-      this.apiService.getUsers().subscribe((res)=>{
+      this.apiService.getUser().subscribe((res)=>{
         if(res.success){
           const currentUser=res.success;
           this.accountForm.patchValue({
@@ -140,6 +142,34 @@ export class AccountComponent {
     if (!pattern.test(input)) {
       event.target.value = input.replace(/[^0-9]/g, '');
     }
+  }
+
+  editEmail(){
+    this.accountForm.controls['email'].enable();
+    this.disabled=true;
+  }
+
+  sendVerificationEmail(email:string){
+    this.apiService.updateEmail({userId:this.loggedInUser._id,email:email}).subscribe((res)=>{
+      if(res.success){
+        this._snackBar.open(
+          res.message,
+          'OK',
+          {
+            duration: 5000,
+          }
+        );
+      }else{
+        console.log('Error', res);
+      this._snackBar.open(
+        res.message,
+        'OK',
+        {
+          duration: 5000,
+        }
+      );
+      }
+    })
   }
 
   onFileSelected(files: FileList | any) {
