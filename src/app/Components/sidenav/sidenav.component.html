@@ -14,6 +14,7 @@
       <a *ngIf="!isLoggedIn" mat-list-item routerLink="/register" (click)="toggleSidenav()">Register</a>
       <a *ngIf="!isLoggedIn" mat-list-item routerLink="/login" (click)="toggleSidenav()">Login</a>
       <a *ngIf="isLoggedIn" mat-list-item routerLink="/account" (click)="toggleSidenav()">Account</a>
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/scanner" (click)="toggleSidenav()">Scan A QR</a>
       <a *ngIf="isLoggedIn" mat-list-item routerLink="/login" (click)="toggleSidenav(); logout()">Logout</a>
     </mat-nav-list>
   </mat-sidenav>

@@ -12,6 +12,7 @@ import { HomeComponent } from './Components/home/home.component';
 import { AccountComponent } from './Components/account/account.component';
 import { ChangePasswordComponent } from './Components/change-password/change-password.component';
 import { ForgotPasswordComponent } from './Components/forgot-password/forgot-password.component';
+import { QrCodeScannerComponent } from './Components/qr-code-scanner/qr-code-scanner.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +28,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { QRCodeModule } from 'angularx-qrcode';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     AccountComponent,
     ChangePasswordComponent,
     ForgotPasswordComponent,
-
+    QrCodeScannerComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +61,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     MatDialogModule,
     FormsModule,
     QRCodeModule,
+    ZXingScannerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

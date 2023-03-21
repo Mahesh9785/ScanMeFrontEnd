@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SafeUrl } from '@angular/platform-browser';
 import { ApiService } from 'src/app/Services/api.service';
 
@@ -15,8 +16,10 @@ export class HomeComponent {
   @ViewChild('qrInput') qrInputField: ElementRef|any;
   constructor(
     private apiService:ApiService,
+    private _snackBar:MatSnackBar,
     ){}
 
+  qrCodeImageUrlForMail: File|any;
   disabled=false;
   showAddQR=false;
   qrcodes=false;
@@ -121,8 +124,40 @@ export class HomeComponent {
     },1000)
   }
 
-  sendQrCodeByEmail() {
-    throw new Error('Method not implemented.');
+  sendQrCodeByEmail(imagePath:string) {
+    // fetch('http://localhost:3000/public/QR_Codes/' + this.loggedInUser._id + '/' + imagePath)
+    // .then(res => res.blob())
+    // .then(blob =>  {
+    //   this.qrCodeImageUrlForMail = new File([blob], imagePath, { type: 'image/jpeg' });
+    //   console.log(this.qrCodeImagePath);
+    // });
+    // const formDataForMail = new FormData();
+    // console.log(this.qrCodeImageUrlForMail)
+    // console.log(this.loggedInUser.email)
+
+    //   formDataForMail.append('file', this.qrCodeImageUrlForMail);
+    //   formDataForMail.append('email', this.loggedInUser.email );
+    //   console.log(formDataForMail);
+    this.apiService.sendEmail({email:this.loggedInUser.email,filename:imagePath}).subscribe((res)=>{
+      if(res.success){
+        this._snackBar.open(
+          res.message,
+          'OK',
+          {
+            duration: 5000,
+          }
+        );
+      }else{
+        console.log('Error', res);
+      this._snackBar.open(
+        res.message,
+        'OK',
+        {
+          duration: 5000,
+        }
+      );
+      }
+    })
   }
 
   editQrCode(qrName:string,qrData:string) {

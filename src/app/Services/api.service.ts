@@ -141,6 +141,20 @@ registerUser(data: any): Observable<any> {
   );
 }
 
+      // send email to user
+      sendEmail(data:any): Observable<any> {
+        console.log(data)
+        this.userId=JSON.parse(localStorage.getItem("myData") as string);
+        return this.httpClient.post(this.API_URL + `/send-mail/${this.userId._id}`, data, { responseType: 'json' })
+        .pipe(
+          catchError((error) => {
+      // Handle the error
+      console.error('Error fetching QRCodes', error);
+      return throwError(() => new Error('Error fetching QRCodes'));
+    })
+  );
+}
+
 
 // Error
 handleError(error: HttpErrorResponse) {
