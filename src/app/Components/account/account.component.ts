@@ -30,6 +30,8 @@ export class AccountComponent {
   userProfilePicture:string="./assets/profile-img.jpg"
   accountForm: FormGroup | any;
   disabled=false;
+  flag=false;
+  message='';
   loggedInUser:any;
   hide = true;
   isClicked: boolean = false;
@@ -74,7 +76,10 @@ export class AccountComponent {
 
       this.apiService.getUser().subscribe((res)=>{
         if(res.success){
-          const currentUser=res.success;
+          const currentUser=res.data;
+          localStorage.setItem('myData',JSON.stringify(res.data))
+          this.loggedInUser = JSON.parse(localStorage.getItem('myData') as string)
+
           this.accountForm.patchValue({
             name:currentUser.name,
             contact:currentUser.contact,
@@ -114,13 +119,30 @@ export class AccountComponent {
       this.apiService.updateUser(data).subscribe((res)=>{
         if(res.success){
           console.log('Data updated!!!!', res.message);
-        this._snackBar.open(
-          res.message,
-          'OK',
-          {
-            duration: 5000,
-          }
-        );
+          this._snackBar.open(
+            res.message,
+            'OK',
+            {
+              duration: 5000,
+            }
+          );
+              this.apiService.getUser().subscribe((res)=>{
+                console.log(res)
+                if(res.success){
+                  localStorage.setItem('myData',JSON.stringify(res.data))
+                  this.loggedInUser = JSON.parse(localStorage.getItem('myData') as string)
+                  console.log(this.loggedInUser);
+                  this._snackBar.open(
+                    "Data successfully updated",
+                    'OK',
+                    {
+                      duration: 5000,
+                    }
+                  );
+                }else{
+                  console.error("Error Fetching User");
+                }
+              })
       } else {
         console.log('Error', res);
         this._snackBar.open(
@@ -134,6 +156,7 @@ export class AccountComponent {
       })
     }
     this.uploadFiles();
+    // console.log(localStorage.getItem('myData'))
   }
 
   onContactInput(event: any) {
@@ -147,10 +170,20 @@ export class AccountComponent {
   editEmail(){
     this.accountForm.controls['email'].enable();
     this.disabled=true;
+    this.flag=true;
   }
 
   sendVerificationEmail(email:string){
-    this.apiService.updateEmail({userId:this.loggedInUser._id,email:email}).subscribe((res)=>{
+    if(email==this.loggedInUser.email){
+      this.accountForm.controls['email'].disable();
+      this.disabled=false;
+      this.flag=false;
+      console.log("No change in email id")
+    }else{
+      this.disabled=false;
+      this.flag=false;
+      this.accountForm.controls['email'].disable();
+      this.apiService.updateEmail({userId:this.loggedInUser._id,email:email}).subscribe((res)=>{
       if(res.success){
         this._snackBar.open(
           res.message,
@@ -170,7 +203,9 @@ export class AccountComponent {
       );
       }
     })
+    this.message='The Email will only be updated after you verify it'
   }
+}
 
   onFileSelected(files: FileList | any) {
     for (let i = 0; i < files.length; i++) {
@@ -201,14 +236,14 @@ export class AccountComponent {
   }
 
   uploadFiles(){
+    if(this.files!==undefined){
     const formData = new FormData();
-
       formData.append('image', this.files, this.files.name);
       console.log(formData);
       this.apiService.saveProfilePicture(formData).subscribe((res)=>{
 
       })
-
+    }
   }
 
 }

@@ -16,6 +16,7 @@
           (change)="onFileSelected(fileInput.files);showPreviewImage($event)"
           [multiple]="false"
         />
+        <span>{{message}}</span>
       </div>
       <mat-card-content>
         <form [formGroup]="accountForm">
@@ -93,7 +94,7 @@
             mat-raised-button
             class="submit"
             (click)="onSubmit(accountForm.value)"
-            [disabled]="accountForm.invalid || disabled"
+            [disabled]="accountForm.invalid || flag"
           >
             Save
           </button>

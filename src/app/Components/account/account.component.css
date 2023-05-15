@@ -67,7 +67,8 @@ mat-error {
   overflow: hidden;
 }
 
-.profile-picture img {
+.profile-picture img{
+  height: auto;
   max-width: 100%;
   max-height: auto;
   object-fit: cover;

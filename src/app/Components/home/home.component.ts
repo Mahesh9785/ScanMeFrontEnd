@@ -35,6 +35,10 @@ export class HomeComponent {
   loggedInUser=JSON.parse(localStorage.getItem("myData") as string);
 
     ngOnInit(){
+      this.getAllQr();
+    }
+
+    getAllQr(){
       this.apiService.getQRcodes().subscribe((res)=>{
         console.log(res);
         if(res.status){
@@ -90,7 +94,7 @@ export class HomeComponent {
     this.downloadQR=url;
     this.qrCodeDownloadLink = url.toString();
     console.log(url);
-    const pattern =  /blob:https?:\/\/\S+/
+    const pattern =  /blob:chrome-extension?:\/\/\S+/
     const match = this.qrCodeDownloadLink.match(pattern);
     if (match ? this.qrCodeDownloadLink= match[0] : this.qrCodeDownloadLink= null)
     console.log(this.qrCodeDownloadLink);
@@ -98,7 +102,6 @@ export class HomeComponent {
 
   saveQrCode(){
     this.inputText='';
-    this.showAddQR=false;
     fetch(this.qrCodeDownloadLink)
     .then(res => res.blob())
     .then(blob =>  {
@@ -113,15 +116,14 @@ export class HomeComponent {
       this.apiService.saveQr(formData).subscribe(
         (res) => {
           console.log('QR code saved successfully:', res);
+          this.showAddQR=false;
+          this.getAllQr();
         },
         (error) => {
           console.error('Error saving QR code:', error);
         }
       )
     });
-    setTimeout(()=>{
-      window.location.reload();
-    },1000)
   }
 
   sendQrCodeByEmail(imagePath:string) {
@@ -194,9 +196,7 @@ deleteQrCode(imageName:string,qrName:string){
           duration: 5000,
         }
       );
-      setTimeout(()=>{
-        window.location.reload();
-      },1000)
+      this.getAllQr();
     }else{
       console.log('Error', res);
     this._snackBar.open(

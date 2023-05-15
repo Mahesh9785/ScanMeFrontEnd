@@ -47,7 +47,7 @@ registerUser(data: any): Observable<any> {
       );
     }
 
-    // Get all users
+    // Get a user
     getUser(): Observable<any> {
       this.userId=JSON.parse(localStorage.getItem("myData") as string);
       return this.httpClient.get(this.API_URL + `/getuser/${this.userId._id}`).pipe(

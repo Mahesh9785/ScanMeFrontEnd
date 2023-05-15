@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "ScanMe",
+  "version": "1.0",
+  "description": "QR code generator and Scanner",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "host_permissions":[
+    "http://*/*",
+    "https://*/*",
+    "*://*/*"
+  ],
+  "icons": {
+    "16": "/assets/ScanMe.png"
+  },
+  "content_security_policy": {
+    "extension_pages":"script-src 'self'; object-src 'self'"
+  }
+}
+
