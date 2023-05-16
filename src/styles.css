@@ -1,11 +1,17 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 * {
-  scrollbar-width: none;
   overflow-x: hidden;
 }
 html,
 body {
-  overflow: hidden;
-  height: 100vh;
+  overflow-x: hidden;
+  height: 110vh;
+}
+::-webkit-scrollbar {
+  display: none !important;
+}
+
+::-webkit-scrollbar-button {
+  display: none !important;
 }
