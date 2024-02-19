@@ -1,24 +1,14 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+export const SecondaryAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  const router = inject(Router);
 
-@Injectable({
-  providedIn: 'root'
-})
-export class SecondaryAuthGuard implements CanActivate {
-  constructor(private router: Router) {}
-
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
 
     if (isLoggedIn) {
-      this.router.navigate(['/home']);
+      router.navigate(['/home']);
       return false;
     }else{
       return true;
     }
-  }
-
 }
