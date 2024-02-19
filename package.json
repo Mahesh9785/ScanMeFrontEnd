@@ -29,7 +29,7 @@
     "qrcode": "^1.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^1.14.1",
-    "zone.js": "~0.13.0"
+    "zone.js": "~0.14"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.12",
@@ -43,6 +43,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.9.4"
+    "typescript": "~5.2"
   }
 }
