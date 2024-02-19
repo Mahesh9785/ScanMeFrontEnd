@@ -23,7 +23,7 @@
     "@angular/router": "^16.2.12",
     "@zxing/library": "^0.19.2",
     "@zxing/ngx-scanner": "^3.8.1",
-    "angularx-qrcode": "^15.0.1",
+    "angularx-qrcode": "^17.0.0",
     "file-saver": "^2.0.5",
     "prettier": "^2.8.4",
     "qrcode": "^1.5.1",
