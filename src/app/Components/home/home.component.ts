@@ -94,9 +94,9 @@ export class HomeComponent {
     this.downloadQR=url;
     this.qrCodeDownloadLink = url.toString();
     console.log(url);
-    const pattern =  /blob:chrome-extension?:\/\/\S+/
+    const pattern =  /blob:https?:\/\/\S+/
     const match = this.qrCodeDownloadLink.match(pattern);
-    if (match ? this.qrCodeDownloadLink= match[0] : this.qrCodeDownloadLink= null)
+    if (match ? this.qrCodeDownloadLink= match[0] : this.qrCodeDownloadLink = null)
     console.log(this.qrCodeDownloadLink);
   }
 
