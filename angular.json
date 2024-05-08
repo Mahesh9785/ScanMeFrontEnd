@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ScanMe:build:production"
+              "buildTarget": "ScanMe:build:production"
             },
             "development": {
-              "browserTarget": "ScanMe:build:development"
+              "buildTarget": "ScanMe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ScanMe:build"
+            "buildTarget": "ScanMe:build"
           }
         },
         "test": {
