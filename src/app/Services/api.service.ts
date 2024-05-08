@@ -6,6 +6,7 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from '@angular/common/http';
+import { environment } from 'src/app/Environments/environments';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import {
 export class ApiService {
 
 // Node/Express API
-API_URL = 'http://localhost:3000';
+API_URL = environment.apiUrl;
 userId:any;
 
 

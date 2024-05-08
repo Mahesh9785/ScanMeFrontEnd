@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SafeUrl } from '@angular/platform-browser';
 import { ApiService } from 'src/app/Services/api.service';
+import { environment } from 'src/app/Environments/environments';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomeComponent {
     private _snackBar:MatSnackBar,
     ){}
 
+  baseURI: string = environment.apiUrl;
   qrCodeImageUrlForMail: File|any;
   disabled=false;
   showAddQR=false;
@@ -159,7 +161,7 @@ export class HomeComponent {
 
   async downloadQrCode(imagePath: string) {
 
-  const response = await fetch('http://localhost:3000/public/QR_Codes/' + this.loggedInUser._id + '/' + imagePath, {
+  const response = await fetch(`${this.baseURI}/public/QR_Codes/` + this.loggedInUser._id + '/' + imagePath, {
     method: 'GET',
     headers: {
       'Access-Control-Allow-Origin': '*'

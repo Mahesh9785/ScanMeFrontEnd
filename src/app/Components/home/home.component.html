@@ -20,7 +20,7 @@
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="qrList">
-      <img width="200" #qrCodeImage src='http://localhost:3000/public/QR_Codes/{{loggedInUser._id}}/{{qr.qrCodeImageName}}' alt="QR Code Image">
+      <img width="200" #qrCodeImage src='{{baseURI}}/public/QR_Codes/{{loggedInUser._id}}/{{qr.qrCodeImageName}}' alt="QR Code Image">
     </mat-card-content>
     <mat-card-actions>
       <!-- [href]="qrCodeImage.src" download="{{qr.qrCodeImageName}}" -->

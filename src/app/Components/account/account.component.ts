@@ -9,6 +9,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { ApiService } from 'src/app/Services/api.service';
+import { environment } from 'src/app/Environments/environments';
 
 interface MyFile extends File {
   url: string | ArrayBuffer | null;
@@ -23,6 +24,7 @@ export class AccountComponent {
 
   @ViewChild('fileInput') fileInputRef!: ElementRef | any;
 
+  baseURI: string = environment.apiUrl;
   files: File|any;
   imageSelected : boolean = false;
   selectedimg : string ="";
@@ -70,7 +72,7 @@ export class AccountComponent {
       if(imagename==''){
         this.userProfilePicture="./assets/profile-img.jpg"
       }else{
-      this.userProfilePicture=`http://localhost:3000/public/Profiles/${imagename}`
+      this.userProfilePicture=`${this.baseURI}/public/Profiles/${imagename}`
     }
     })
 
